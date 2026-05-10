@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Carga Financiera</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161820;
+    --card: #1e2130;
+    --border: #2a2d3e;
+    --accent: #00e5a0;
+    --accent2: #ff6b6b;
+    --accent3: #ffd166;
+    --text: #eef0f8;
+    --muted: #7a7f9a;
+    --green: #00e5a0;
+    --yellow: #ffd166;
+    --red: #ff6b6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,160,0.07) 0%, transparent 70%);
+    top: -200px;
+    right: -200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow2 {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,107,107,0.05) 0%, transparent 70%);
+    bottom: 100px;
+    left: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* Header */
+  header {
+    margin-bottom: 48px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0,229,160,0.3);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    background: rgba(0,229,160,0.05);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  /* Tramos table */
+  .tramos {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .tramos-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .tramos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  .tramo-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .tramo-renta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .tramo-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* Layout */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-title .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .card-title .dot.red { background: var(--red); }
+
+  /* Inputs */
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-wrap span {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px 10px 30px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  input[type="number"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,229,160,0.12);
+  }
+
+  .total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+
+  .total-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .total-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .total-value.red { color: var(--red); }
+
+  /* Results */
+  .results {
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .results-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+  }
+
+  .results-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .result-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    transition: border-color 0.3s;
+  }
+
+  .result-item-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .result-item-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  /* Status bar */
+  .status-bar {
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.4s ease;
+    border: 1px solid transparent;
+  }
+
+  .status-bar.verde {
+    background: rgba(0,229,160,0.08);
+    border-color: rgba(0,229,160,0.3);
+  }
+  .status-bar.amarillo {
+    background: rgba(255,209,102,0.08);
+    border-color: rgba(255,209,102,0.3);
+  }
+  .status-bar.rojo {
+    background: rgba(255,107,107,0.08);
+    border-color: rgba(255,107,107,0.3);
+  }
+  .status-bar.neutral {
+    background: var(--surface);
+    border-color: var(--border);
+  }
+
+  .status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--muted);
+    transition: background 0.4s;
+  }
+
+  .status-bar.verde .status-dot { background: var(--green); box-shadow: 0 0 10px rgba(0,229,160,0.5); }
+  .status-bar.amarillo .status-dot { background: var(--yellow); box-shadow: 0 0 10px rgba(255,209,102,0.5); }
+  .status-bar.rojo .status-dot { background: var(--red); box-shadow: 0 0 10px rgba(255,107,107,0.5); }
+
+  .status-text {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .status-bar.verde .status-text { color: var(--green); }
+  .status-bar.amarillo .status-text { color: var(--yellow); }
+  .status-bar.rojo .status-text { color: var(--red); }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .progress-track {
+    height: 6px;
+    background: var(--surface);
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s;
+  }
+
+  /* Saldo */
+  .saldo-highlight {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(0,229,160,0.08) 0%, rgba(0,229,160,0.02) 100%);
+    border: 1px solid rgba(0,229,160,0.2);
+  }
+
+  .saldo-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .saldo-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    transition: color 0.4s;
+  }
+
+  .saldo-val.negative { color: var(--red); }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="glow2"></div>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <div class="badge">💸 Herramienta Personal</div>
+    <h1>Calculadora de<br><span>Carga Financiera</span></h1>
+    <p class="subtitle">Registra tus ingresos y gastos para conocer tu capacidad de endeudamiento y ahorro mensual.</p>
+  </header>
+
+  <!-- Tramos -->
+  <div class="tramos">
+    <div class="tramos-title">Tramos de Carga Financiera (recomendación SERNAC)</div>
+    <div class="tramos-grid">
+      <div class="tramo-item">
+        <div class="tramo-renta">$200.000 – $600.000</div>
+        <div class="tramo-pct">25%</div>
+      </div>
+      <div class="tramo-item">
+        <div class="tramo-renta">$600.001 – $1.300.000</div>
+        <div class="tramo-pct">40%</div>
+      </div>
+      <div class="tramo-item">
+        <div class="tramo-renta">$1.300.001 – $2.500.000</div>
+        <div class="tramo-pct">50%</div>
+      </div>
+      <div class="tramo-item">
+        <div class="tramo-renta">$2.500.001 y más</div>
+        <div class="tramo-pct">55%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ingresos + Egresos -->
+  <div class="grid-2">
+
+    <!-- Ingresos -->
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Ingresos Mensuales</div>
+
+      <div class="field">
+        <label>Sueldo líquido (después de descuentos)</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="sueldo" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Honorarios</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="honorarios" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Comisiones</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="comisiones" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Bonos</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="bonos" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Aguinaldos</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="aguinaldos" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+
+      <div class="total-row">
+        <span class="total-label">Total ingresos</span>
+        <span class="total-value" id="total-ingresos">$0</span>
+      </div>
+    </div>
+
+    <!-- Egresos -->
+    <div class="card">
+      <div class="card-title"><span class="dot red"></span>Egresos Mensuales</div>
+
+      <div class="field">
+        <label>Servicios básicos (agua, luz, gas)</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="servicios-basicos" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Servicios adicionales (internet, TV, celular)</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="servicios-adic" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Alimentación</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="alimentacion" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Educación</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="educacion" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Arriendo / Gastos comunes</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="arriendo" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Crédito hipotecario (dividendo)</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="hipotecario" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Crédito consumo / automotriz</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="consumo" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Crédito educacional</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="cred-educ" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Tarjeta de crédito (pago mínimo o total)</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="tarjeta" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Seguros (auto, hogar, vida, escolar)</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="seguros" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Salud</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="salud" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Recreación</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="recreacion" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Vestuario</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="vestuario" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Movilización / Gasolina / Peajes</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="movilizacion" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+      <div class="field">
+        <label>Otros</label>
+        <div class="input-wrap"><span>$</span><input type="number" id="otros" placeholder="0" min="0" oninput="calcular()"></div>
+      </div>
+
+      <div class="total-row">
+        <span class="total-label">Total egresos</span>
+        <span class="total-value red" id="total-egresos">$0</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Resultados -->
+  <div class="results">
+    <div class="results-card">
+      <div class="results-title">Resultado</div>
+
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="result-item-label">Ingreso después de vivienda</div>
+          <div class="result-item-value" id="res-ingreso-vivienda">$0</div>
+        </div>
+        <div class="result-item">
+          <div class="result-item-label">Carga financiera</div>
+          <div class="result-item-value" id="res-carga">$0</div>
+        </div>
+        <div class="result-item">
+          <div class="result-item-label">Relación renta/dividendo</div>
+          <div class="result-item-value" id="res-renta-div">—</div>
+        </div>
+      </div>
+
+      <!-- Barra de carga financiera -->
+      <div class="progress-wrap" style="margin-bottom:16px">
+        <div class="progress-label">
+          <span>Carga financiera</span>
+          <span id="pct-carga">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="bar-carga"></div>
+        </div>
+      </div>
+
+      <!-- Saldo disponible -->
+      <div class="saldo-highlight">
+        <div>
+          <div class="saldo-label">Capacidad de ahorro</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px">Ingresos − Egresos totales</div>
+        </div>
+        <div class="saldo-val" id="res-ahorro">$0</div>
+      </div>
+
+      <!-- Estado -->
+      <div class="status-bar neutral" id="status-bar">
+        <div class="status-dot" id="status-dot"></div>
+        <div class="status-text" id="status-text">Ingresa tus datos para ver tu situación financiera.</div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Dentro del límite recomendado</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Cerca del límite</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Excede carga financiera máxima</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const fmt = n => '$' + Math.round(n).toLocaleString('es-CL');
+
+  function getVal(id) {
+    return parseFloat(document.getElementById(id).value) || 0;
+  }
+
+  function getLimite(ingreso) {
+    if (ingreso <= 600000) return 0.25;
+    if (ingreso <= 1300000) return 0.40;
+    if (ingreso <= 2500000) return 0.50;
+    return 0.55;
+  }
+
+  function calcular() {
+    // Ingresos
+    const ingresos = ['sueldo','honorarios','comisiones','bonos','aguinaldos']
+      .reduce((s, id) => s + getVal(id), 0);
+
+    // Vivienda
+    const vivienda = getVal('arriendo') + getVal('hipotecario');
+
+    // Carga financiera = créditos + tarjetas
+    const carga = getVal('hipotecario') + getVal('consumo') + getVal('cred-educ') + getVal('tarjeta');
+
+    // Egresos totales
+    const egresos = ['servicios-basicos','servicios-adic','alimentacion','educacion',
+      'arriendo','hipotecario','consumo','cred-educ','tarjeta','seguros','salud',
+      'recreacion','vestuario','movilizacion','otros']
+      .reduce((s, id) => s + getVal(id), 0);
+
+    const ingresoPostVivienda = ingresos - vivienda;
+    const ahorro = ingresos - egresos;
+    const pctCarga = ingresos > 0 ? (carga / ingresos) * 100 : 0;
+    const limite = getLimite(ingresos) * 100;
+    const rentaDiv = vivienda > 0 && ingresos > 0 ? ((vivienda / ingresos) * 100).toFixed(1) + '%' : '—';
+
+    // Render
+    document.getElementById('total-ingresos').textContent = fmt(ingresos);
+    document.getElementById('total-egresos').textContent = fmt(egresos);
+    document.getElementById('res-ingreso-vivienda').textContent = fmt(ingresoPostVivienda);
+    document.getElementById('res-carga').textContent = fmt(carga);
+    document.getElementById('res-renta-div').textContent = rentaDiv;
+
+    const ahorroEl = document.getElementById('res-ahorro');
+    ahorroEl.textContent = fmt(ahorro);
+    ahorroEl.className = 'saldo-val' + (ahorro < 0 ? ' negative' : '');
+
+    // Barra
+    const barWidth = Math.min(pctCarga, 100);
+    document.getElementById('pct-carga').textContent = pctCarga.toFixed(1) + '%';
+    const bar = document.getElementById('bar-carga');
+    bar.style.width = barWidth + '%';
+
+    // Estado
+    const statusBar = document.getElementById('status-bar');
+    const statusText = document.getElementById('status-text');
+
+    if (ingresos === 0) {
+      statusBar.className = 'status-bar neutral';
+      bar.style.background = 'var(--muted)';
+      statusText.textContent = 'Ingresa tus datos para ver tu situación financiera.';
+    } else if (pctCarga > limite) {
+      statusBar.className = 'status-bar rojo';
+      bar.style.background = 'var(--red)';
+      statusText.textContent = `Tu carga financiera (${pctCarga.toFixed(1)}%) supera el máximo recomendado de ${limite}% para tu tramo de renta.`;
+    } else if (pctCarga >= limite * 0.85) {
+      statusBar.className = 'status-bar amarillo';
+      bar.style.background = 'var(--yellow)';
+      statusText.textContent = `Tu carga financiera (${pctCarga.toFixed(1)}%) está cerca del límite recomendado (${limite}%). Precaución.`;
+    } else {
+      statusBar.className = 'status-bar verde';
+      bar.style.background = 'var(--green)';
+      statusText.textContent = `Tu carga financiera (${pctCarga.toFixed(1)}%) está dentro del rango recomendado de ${limite}%. ¡Bien!`;
+    }
+  }
+
+  calcular();
+</script>
+</body>
+</html>
