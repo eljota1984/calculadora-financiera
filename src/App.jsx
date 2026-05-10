@@ -3,6 +3,7 @@ import { incomeFields, expenseFields } from './data/fields';
 import { calculateFinancialSummary } from './utils/calculations';
 import FinancialCard from './components/FinancialCard';
 import ResultsCard from './components/ResultsCard';
+import FinancialRanges from './components/FinancialRanges';
 
 const initialValues = {
   sueldo: 0,
@@ -42,7 +43,11 @@ function App() {
     }));
   }
 
-  return (
+ return (
+  <>
+    <div className="glow"></div>
+    <div className="glow2"></div>
+
     <div className="wrapper">
       <header>
         <div className="badge">💸 Herramienta Personal</div>
@@ -58,6 +63,8 @@ function App() {
           endeudamiento y ahorro mensual.
         </p>
       </header>
+
+      <FinancialRanges />
 
       <div className="grid-2">
         <FinancialCard
@@ -77,9 +84,11 @@ function App() {
           variant="red"
         />
       </div>
+
       <ResultsCard results={results} />
     </div>
-  );
+  </>
+);
 }
 
 export default App;
