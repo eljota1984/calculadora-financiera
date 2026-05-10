@@ -192,3 +192,248 @@ input[type='number']:focus {
     grid-template-columns: 1fr;
   }
 }
+.results {
+  margin-top: 24px;
+}
+
+.results-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+}
+
+.results-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.result-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+.result-item-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.result-item-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.progress-wrap {
+  margin-bottom: 16px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--surface);
+  border-radius: 100px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--muted);
+  width: 0%;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+.progress-fill.verde {
+  background: var(--green);
+}
+
+.progress-fill.amarillo {
+  background: var(--yellow);
+}
+
+.progress-fill.rojo {
+  background: var(--red);
+}
+
+.progress-fill.neutral {
+  background: var(--muted);
+}
+
+.saldo-highlight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 229, 160, 0.08) 0%,
+    rgba(0, 229, 160, 0.02) 100%
+  );
+  border: 1px solid rgba(0, 229, 160, 0.2);
+}
+
+.saldo-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.saldo-description {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.saldo-val {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.saldo-val.negative {
+  color: var(--red);
+}
+
+.status-bar {
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.4s ease;
+  border: 1px solid transparent;
+}
+
+.status-bar.verde {
+  background: rgba(0, 229, 160, 0.08);
+  border-color: rgba(0, 229, 160, 0.3);
+}
+
+.status-bar.amarillo {
+  background: rgba(255, 209, 102, 0.08);
+  border-color: rgba(255, 209, 102, 0.3);
+}
+
+.status-bar.rojo {
+  background: rgba(255, 107, 107, 0.08);
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+.status-bar.neutral {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--muted);
+}
+
+.status-bar.verde .status-dot {
+  background: var(--green);
+  box-shadow: 0 0 10px rgba(0, 229, 160, 0.5);
+}
+
+.status-bar.amarillo .status-dot {
+  background: var(--yellow);
+  box-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+}
+
+.status-bar.rojo .status-dot {
+  background: var(--red);
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.status-text {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.status-bar.verde .status-text {
+  color: var(--green);
+}
+
+.status-bar.amarillo .status-text {
+  color: var(--yellow);
+}
+
+.status-bar.rojo .status-text {
+  color: var(--red);
+}
+
+.legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legend-dot.green {
+  background: var(--green);
+}
+
+.legend-dot.yellow {
+  background: var(--yellow);
+}
+
+.legend-dot.red {
+  background: var(--red);
+}
+
+@media (max-width: 640px) {
+  .saldo-highlight {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .saldo-val {
+    font-size: 24px;
+  }
+}

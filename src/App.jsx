@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { incomeFields, expenseFields } from './data/fields';
 import { calculateFinancialSummary } from './utils/calculations';
 import FinancialCard from './components/FinancialCard';
+import ResultsCard from './components/ResultsCard';
 
 const initialValues = {
   sueldo: 0,
@@ -76,6 +77,7 @@ function App() {
           variant="red"
         />
       </div>
+      <ResultsCard results={results} />
     </div>
   );
 }
