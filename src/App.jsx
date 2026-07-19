@@ -6,6 +6,7 @@ import FinancialCard from './components/FinancialCard';
 import ResultsCard from './components/ResultsCard';
 import FinancialRanges from './components/FinancialRanges';
 import CalculadoraCredito from './components/CalculadoraCredito';
+import CalculadoraTarjetas from './components/CalculadoraTarjetas';
 
 const initialValues = {
   sueldo: 0,
@@ -86,7 +87,7 @@ function App() {
           </h1>
 
           <p className="subtitle">
-            Gestiona tu salud financiera y simula créditos de consumo.
+            Gestiona tu salud financiera, simula créditos y organiza tus tarjetas.
           </p>
 
           <nav className="tab-nav">
@@ -102,6 +103,12 @@ function App() {
               className={({ isActive }) => isActive ? 'tab-btn tab-btn--active' : 'tab-btn'}
             >
               Crédito de Consumo
+            </NavLink>
+            <NavLink
+              to="/tarjetas"
+              className={({ isActive }) => isActive ? 'tab-btn tab-btn--active' : 'tab-btn'}
+            >
+              Tarjetas
             </NavLink>
           </nav>
         </header>
@@ -127,6 +134,7 @@ function App() {
               />
             }
           />
+          <Route path="/tarjetas" element={<CalculadoraTarjetas />} />
         </Routes>
       </div>
     </>
