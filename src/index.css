@@ -544,3 +544,94 @@ h1, .badge, .card-title, .total-label, .total-value,
 .cc-conclu  { background: #f8fafc; color: #64748b; }
 .cc-ganador { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
 .cc-divider { background: #e2e6ed; }
+
+/* ── Mobile responsive ─────────────────────────────── */
+@media (max-width: 640px) {
+
+  /* Nav: 2x2 en móvil */
+  .tab-nav {
+    grid-template-columns: 1fr 1fr;
+    max-width: 100%;
+    gap: 8px;
+  }
+
+  .tab-btn {
+    font-size: 12px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  /* Header centrado */
+  header {
+    text-align: center;
+  }
+
+  .subtitle {
+    margin: 0 auto;
+    font-size: 15px;
+  }
+
+  /* Wrapper sin padding lateral excesivo */
+  .wrapper {
+    width: 100%;
+    padding: 24px 16px 60px;
+  }
+
+  /* Grids colapsan a 1 columna */
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Cards más compactas */
+  .card {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  /* Título más pequeño en móvil */
+  h1 {
+    font-size: clamp(28px, 10vw, 42px);
+  }
+
+  /* Crédito: grids internos */
+  .cc-g2, .cc-g3, .cc-g4 {
+    grid-template-columns: 1fr;
+  }
+
+  .cc-card {
+    padding: 1rem;
+  }
+
+  /* Tarjetas */
+  .ct-grid3 {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-deuda-resumen {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Simulador inversión */
+  .si-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .si-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .si-scenarios-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .si-grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tabs de resultados scroll horizontal */
+  .cc-tabs, .ct-tabs, .si-type-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+  }
+}

@@ -123,3 +123,56 @@
 .si-aviso-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
 .si-aviso-text { font-size: 13px; color: #92400e; line-height: 1.5; }
 .si-aviso-title { font-weight: 700; margin-bottom: 3px; }
+
+
+/* ── Mobile responsive ─────────────────────────────── */
+@media (max-width: 640px) {
+
+  .si-page { padding: 1rem 0 2rem; }
+
+  /* Header más compacto */
+  .si-header { gap: 10px; margin-bottom: 16px; }
+  .si-header-icon { width: 40px; height: 40px; font-size: 20px; border-radius: 10px; }
+  .si-title { font-size: 20px; }
+  .si-subtitle { font-size: 13px; }
+
+  /* Layout 1 columna */
+  .si-layout { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Type tabs: 1 fila scrolleable */
+  .si-type-tabs { grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; }
+  .si-type-tab { padding: 8px 4px; }
+  .si-type-tab-label { font-size: 11px; }
+
+  /* Cards */
+  .si-card { padding: 1rem; border-radius: 12px; }
+
+  /* Grid 2 → 1 columna */
+  .si-grid2 { grid-template-columns: 1fr; gap: 10px; }
+
+  /* Stats: 2 columnas en móvil está bien */
+  .si-stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .si-stat-value { font-size: 15px; }
+  .si-stat-label { font-size: 10px; }
+
+  /* Escenarios: 1 columna */
+  .si-scenarios-grid { grid-template-columns: 1fr; gap: 10px; }
+
+  /* Donut: vertical en móvil */
+  .si-donut-wrap { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  /* Tabla con scroll */
+  .si-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .si-table { min-width: 420px; }
+
+  /* Toggle row */
+  .si-toggle-row { gap: 8px; }
+  .si-toggle-label { font-size: 12px; }
+
+  /* Info box */
+  .si-info-box { font-size: 12px; }
+
+  /* Aviso */
+  .si-aviso { padding: 12px 14px; gap: 8px; }
+  .si-aviso-text { font-size: 12px; }
+}
