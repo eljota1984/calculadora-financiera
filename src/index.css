@@ -437,6 +437,10 @@ h1, .badge, .card-title, .total-label, .total-value,
   margin-right: auto;
 }
 
+.tab-nav {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
 .tab-btn {
   padding: 12px 20px;
   border-radius: 99px;
