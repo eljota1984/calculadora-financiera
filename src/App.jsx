@@ -8,6 +8,7 @@ import FinancialRanges from './components/FinancialRanges';
 import CalculadoraCredito from './components/CalculadoraCredito';
 import CalculadoraTarjetas from './components/CalculadoraTarjetas';
 import SimuladorInversion from './components/SimuladorInversion';
+import LandingPage from './components/LandingPage';
 
 const initialValues = {
   sueldo: 0,
@@ -117,6 +118,7 @@ function App() {
             >
               Simulador de Inversión
             </NavLink>
+             <NavLink to="/landing" className={({ isActive }) => isActive ? 'tab-btn tab-btn--active' : 'tab-btn'} > Inicio </NavLink>
           </nav>
         </header>
 
@@ -143,6 +145,7 @@ function App() {
           />
           <Route path="/tarjetas" element={<CalculadoraTarjetas />} />
           <Route path="/inversiones" element={<SimuladorInversion />} />
+          <Route path="/landing" element={<LandingPage />} />
         </Routes>
       </div>
     </>
