@@ -46,28 +46,28 @@ const ARTICLES = [
 
 const TOOLS = [
   {
-    path: "/",
+    path: "/herramientas",
     icon: "📊",
     color: "blue",
     name: "Carga Financiera",
     desc: "Calcula tu capacidad de endeudamiento y ahorro mensual.",
   },
   {
-    path: "/credito",
+    path: "/herramientas/credito",
     icon: "🏦",
     color: "green",
     name: "Crédito de Consumo",
     desc: "Compara tasas, CAE y simula cuotas entre dos bancos.",
   },
   {
-    path: "/tarjetas",
+    path: "/herramientas/tarjetas",
     icon: "💳",
     color: "amber",
     name: "Plan de Tarjetas",
     desc: "Avalancha o bola de nieve para eliminar tus deudas.",
   },
   {
-    path: "/inversiones",
+    path: "/herramientas/inversiones",
     icon: "📈",
     color: "purple",
     name: "Simulador de Inversión",
@@ -94,7 +94,7 @@ export default function LandingPage() {
           Gestiona tu salud financiera, simula créditos y organiza tus tarjetas.
         </p>
         <div className="lp-hero-btns">
-          <button className="lp-btn-primary" onClick={() => navigate('/')}>
+          <button className="lp-btn-primary" onClick={() => navigate('/herramientas')}>
             Ir a las herramientas
           </button>
           <button className="lp-btn-secondary" onClick={() => document.getElementById('blog').scrollIntoView({ behavior: 'smooth' })}>
@@ -161,7 +161,7 @@ export default function LandingPage() {
       <section className="lp-cta">
         <h2 className="lp-cta-title">¿Listo para tomar control de tus finanzas?</h2>
         <p className="lp-cta-sub">Usa las herramientas gratuitas para entender tu situación financiera hoy.</p>
-        <button className="lp-btn-primary" onClick={() => navigate('/')}>
+        <button className="lp-btn-primary" onClick={() => navigate('/herramientas')}>
           Comenzar ahora →
         </button>
       </section>
@@ -171,7 +171,7 @@ export default function LandingPage() {
         <div className="lp-footer-inner">
           <span className="lp-footer-logo">💸 Finanzas Personales</span>
           <div className="lp-footer-links">
-            <button onClick={() => navigate('/')}>Herramientas</button>
+            <button onClick={() => navigate('/herramientas')}>Herramientas</button>
             <button onClick={() => document.getElementById('blog').scrollIntoView({ behavior: 'smooth' })}>Blog</button>
           </div>
           <span className="lp-footer-copy">© {new Date().getFullYear()}</span>

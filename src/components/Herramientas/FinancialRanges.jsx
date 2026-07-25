@@ -1,4 +1,4 @@
-import { financialRanges } from '../data/ranges';
+import { financialRanges } from '../../data/ranges';
 
 function FinancialRanges() {
   return (

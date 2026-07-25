@@ -1,4 +1,4 @@
-import { formatCurrency } from '../utils/formatters';
+import { formatCurrency } from '../../utils/formatters';
 import ProgressBar from './ProgressBar';
 import StatusBar from './StatusBar';
 

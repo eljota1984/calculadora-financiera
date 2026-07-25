@@ -1,5 +1,5 @@
 import MoneyInput from './MoneyInput';
-import { formatCurrency } from '../utils/formatters';
+import { formatCurrency } from '../../utils/formatters';
 
 function FinancialCard({
   title,
