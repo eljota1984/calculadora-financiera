@@ -252,3 +252,43 @@
   .si-scenario-capital { font-size: 17px; }
   .si-scenario-label { font-size: 12px; }
 }
+/* Header alineado con el contenido */
+.si-header {
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.si-header-icon {
+  flex-shrink: 0;
+}
+
+.si-title {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.si-subtitle {
+  font-size: 12px;
+}
+
+/* Todo el page sin padding extra */
+.si-page {
+  padding: 0 0 2rem;
+  width: 100%;
+}
+
+/* Left y right ocupan todo el ancho */
+.si-left,
+.si-right {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Cards al 100% */
+.si-card {
+  width: 100%;
+  box-sizing: border-box;
+}
