@@ -176,3 +176,79 @@
   .si-aviso { padding: 12px 14px; gap: 8px; }
   .si-aviso-text { font-size: 12px; }
 }
+
+@media (max-width: 768px) {
+
+  /* Layout principal: 1 columna */
+  .si-layout {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .si-page { padding: 0.75rem 0 2rem; }
+
+  /* Header compacto */
+  .si-header { gap: 10px; margin-bottom: 16px; }
+  .si-header-icon { width: 40px; height: 40px; font-size: 20px; }
+  .si-title { font-size: 20px; }
+  .si-subtitle { font-size: 13px; }
+
+  /* Cards */
+  .si-card { padding: 14px; border-radius: 12px; }
+
+  /* Todos los grid2 → 1 columna */
+  .si-grid2 { grid-template-columns: 1fr !important; gap: 10px; }
+
+  /* Type tabs — scrolleable horizontal */
+  .si-type-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 6px;
+    padding: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .si-type-tab { flex-shrink: 0; padding: 8px 12px; }
+  .si-type-tab-label { font-size: 12px; }
+
+  /* Stats: 2x2 */
+  .si-stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .si-stat-value { font-size: 15px; }
+  .si-stat-label { font-size: 10px; }
+  .si-stat-card { padding: 10px 12px; }
+
+  /* Escenarios: 1 columna */
+  .si-scenarios-grid { grid-template-columns: 1fr !important; }
+
+  /* Donut: vertical */
+  .si-donut-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* Tabla: scroll horizontal */
+  .si-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .si-table { min-width: 380px; font-size: 12px; }
+  .si-table th, .si-table td { padding: 6px 6px; }
+
+  /* Botones full width */
+  .si-btn-calc, .si-btn-reset { font-size: 14px; }
+
+  /* Toggle */
+  .si-toggle-label { font-size: 12px; }
+
+  /* Aviso */
+  .si-aviso { padding: 12px; gap: 8px; flex-direction: row; }
+  .si-aviso-text { font-size: 12px; }
+  .si-aviso-icon { font-size: 16px; }
+
+  /* Info box */
+  .si-info-box { font-size: 12px; padding: 8px 12px; }
+
+  /* Rows resumen */
+  .si-row { font-size: 12px; padding: 7px 0; }
+
+  /* Scenario card más compacta */
+  .si-scenario-capital { font-size: 17px; }
+  .si-scenario-label { font-size: 12px; }
+}
