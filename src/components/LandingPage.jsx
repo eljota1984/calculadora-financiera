@@ -1,48 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { getAllPosts } from '../lib/blog';
 import './LandingPage.css';
-
-const ARTICLES = [
-  {
-    slug: "que-es-el-cae",
-    tag: "Créditos",
-    tagColor: "blue",
-    title: "¿Qué es el CAE y por qué es lo único que deberías comparar al pedir un crédito?",
-    excerpt: "El CAE incluye tasa, seguros y comisiones en un solo número. Te explicamos cómo usarlo para no pagar de más.",
-    date: "12 jul 2026",
-    readTime: "4 min",
-    featured: true,
-  },
-  {
-    slug: "avalancha-vs-bola-de-nieve",
-    tag: "Tarjetas",
-    tagColor: "green",
-    title: "Avalancha vs bola de nieve: cuál te conviene para pagar tarjetas",
-    excerpt: "Dos estrategias probadas para eliminar deudas. Te mostramos cuál ahorra más dinero y cuál genera más motivación.",
-    date: "8 jul 2026",
-    readTime: "3 min",
-    featured: false,
-  },
-  {
-    slug: "como-calcular-carga-financiera",
-    tag: "Finanzas",
-    tagColor: "amber",
-    title: "Cómo calcular tu carga financiera y saber si puedes endeudarte",
-    excerpt: "Antes de pedir cualquier crédito, necesitas saber cuánto de tu sueldo ya está comprometido.",
-    date: "3 jul 2026",
-    readTime: "5 min",
-    featured: false,
-  },
-  {
-    slug: "tramos-deuda-chile",
-    tag: "Chile",
-    tagColor: "blue",
-    title: "Tramos de deuda en Chile: cuánto puedes comprometer de tu sueldo",
-    excerpt: "Los bancos chilenos usan rangos específicos para evaluar si eres sujeto de crédito. Conócelos.",
-    date: "28 jun 2026",
-    readTime: "4 min",
-    featured: false,
-  },
-];
 
 const TOOLS = [
   {
@@ -75,10 +33,21 @@ const TOOLS = [
   },
 ];
 
+function formatDate(isoDate) {
+  return new Date(isoDate).toLocaleDateString('es-CL', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
 export default function LandingPage() {
   const navigate = useNavigate();
-  const featured = ARTICLES.find(a => a.featured);
-  const rest = ARTICLES.filter(a => !a.featured);
+
+  // Los posts ya vienen ordenados de más nuevo a más viejo (ver src/lib/blog.js)
+  const posts = getAllPosts();
+  const featured = posts[0];
+  const rest = posts.slice(1);
 
   return (
     <div className="lp-page">
@@ -121,12 +90,19 @@ export default function LandingPage() {
       <section className="lp-section" id="blog">
         <div className="lp-blog-header">
           <p className="lp-section-label">Últimos artículos</p>
+          <button className="lp-btn-secondary" onClick={() => navigate('/blog')}>
+            Ver todos →
+          </button>
         </div>
         <div className="lp-blog-grid">
 
           {/* Featured */}
           {featured && (
-            <div className="lp-featured-card">
+            <div
+              className="lp-featured-card"
+              onClick={() => navigate(`/blog/${featured.slug}`)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className={`lp-featured-img lp-img-${featured.tagColor}`}>
                 <span className="lp-featured-tag">{featured.tag}</span>
               </div>
@@ -134,7 +110,7 @@ export default function LandingPage() {
                 <h2 className="lp-featured-title">{featured.title}</h2>
                 <p className="lp-featured-excerpt">{featured.excerpt}</p>
                 <div className="lp-article-meta">
-                  <span>📅 {featured.date}</span>
+                  <span>📅 {formatDate(featured.date)}</span>
                   <span>·</span>
                   <span>⏱ {featured.readTime}</span>
                 </div>
@@ -144,12 +120,17 @@ export default function LandingPage() {
 
           {/* Side articles */}
           <div className="lp-side-articles">
-            {rest.map(a => (
-              <div key={a.slug} className="lp-mini-card">
-                <span className={`lp-mini-dot lp-dot-${a.tagColor}`}>{a.tag[0]}</span>
+            {rest.map(post => (
+              <div
+                key={post.slug}
+                className="lp-mini-card"
+                onClick={() => navigate(`/blog/${post.slug}`)}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className={`lp-mini-dot lp-dot-${post.tagColor}`}>{post.tag[0]}</span>
                 <div>
-                  <p className="lp-mini-title">{a.title}</p>
-                  <p className="lp-mini-meta">{a.date} · {a.readTime}</p>
+                  <p className="lp-mini-title">{post.title}</p>
+                  <p className="lp-mini-meta">{formatDate(post.date)} · {post.readTime}</p>
                 </div>
               </div>
             ))}
@@ -172,7 +153,7 @@ export default function LandingPage() {
           <span className="lp-footer-logo">💸 Finanzas Personales</span>
           <div className="lp-footer-links">
             <button onClick={() => navigate('/herramientas')}>Herramientas</button>
-            <button onClick={() => document.getElementById('blog').scrollIntoView({ behavior: 'smooth' })}>Blog</button>
+            <button onClick={() => navigate('/blog')}>Blog</button>
           </div>
           <span className="lp-footer-copy">© {new Date().getFullYear()}</span>
         </div>
