@@ -11,6 +11,8 @@ import SimuladorInversion from './components/Herramientas/SimuladorInversion';
 import LandingPage from './components/LandingPage';
 import BlogList from './components/BlogList';
 import BlogPost from './components/BlogPost';
+import PdfButton from './components/Herramientas/PdfButton';
+import { generateCargaFinancieraReport } from './utils/reports/cargaFinancieraReport';
 
 const initialValues = {
   sueldo: 0, honorarios: 0, comisiones: 0, bonos: 0, aguinaldos: 0,
@@ -42,6 +44,14 @@ function CalculadoraFinanciera({ values, results, handleChange }) {
         />
       </div>
       <ResultsCard results={results} />
+
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
+        <PdfButton
+          disabled={results.income === 0}
+          label="Descargar informe de carga financiera"
+          onGenerate={() => generateCargaFinancieraReport({ values, results })}
+        />
+      </div>
     </>
   );
 }

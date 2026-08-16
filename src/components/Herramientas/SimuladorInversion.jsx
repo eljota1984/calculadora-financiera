@@ -1,9 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, Legend,
 } from "recharts";
 import './SimuladorInversion.css';
+import PdfButton from './PdfButton';
+import { generateInversionReport } from '../../utils/reports/inversionReport';
 
 const fmt = (n) => "$ " + Math.round(n).toLocaleString("es-CL", { maximumFractionDigits: 0 });
 const pct = (n, digits = 1) => n.toLocaleString("es-CL", { minimumFractionDigits: digits, maximumFractionDigits: digits }) + " %";
@@ -164,6 +166,8 @@ export default function SimuladorInversion() {
   ] : [];
   const donutTotal = donutData.reduce((s, d) => s + d.value, 0) || 1;
 
+  const chartRef = useRef(null);
+
   const setScenarioRate = (id, value) => setScenarioRates((prev) => ({ ...prev, [id]: value }));
 
   const reset = () => { setInitial(0); setMonthly(0); setRate(8); setYears(10); setCompounding("Mensual"); setTiming("fin"); setInflationOn(false); setInflation(3); setCommission(0); setScenarioRates(DEFAULT_SCENARIO_RATES); };
@@ -266,12 +270,22 @@ export default function SimuladorInversion() {
                   <StatCard label="Ganancia por rentabilidad" value={fmt(result.ganancia)} valueColor="#7c3aed" bg="#f5f3ff" icon="✨" />
                   <StatCard label="% del capital que es ganancia" value={pct(result.porcentajeGenerado, 1)} valueColor="#d97706" bg="#fffbeb" icon="%" />
                 </div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 14 }}>
+                  <PdfButton
+                    label="Descargar informe de inversión"
+                    onGenerate={() => generateInversionReport({
+                      chartElement: chartRef.current,
+                      initial, monthly, rate, years, result,
+                      includeInitial, includeMonthly, scenarios,
+                    })}
+                  />
+                </div>
               </div>
 
               {/* Gráfico evolución */}
               <div className="si-card">
                 <h3 className="si-card-title" style={{ marginBottom: 14 }}>Evolución de tu inversión</h3>
-                <div style={{ width: "100%", height: 280 }}>
+                <div ref={chartRef} style={{ width: "100%", height: 280 }}>
                   <ResponsiveContainer>
                     <AreaChart data={result.series} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                       <defs>

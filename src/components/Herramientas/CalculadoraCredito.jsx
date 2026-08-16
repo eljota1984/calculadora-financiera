@@ -5,6 +5,8 @@ import {
 } from "chart.js";
 import { Bar, Line, Doughnut } from "react-chartjs-2";
 import './CalculadoraCredito.css';
+import PdfButton from './PdfButton';
+import { generateCreditoReport } from '../../utils/reports/creditoReport';
 
 ChartJS.register(
   CategoryScale, LinearScale, BarElement, LineElement, PointElement,
@@ -480,12 +482,18 @@ export default function CalculadoraCredito({ ingreso: ingresoProp = 1200000, deu
 
       {results && (
         <div>
-          <div className="cc-tabs">
-            {TABS.map((t) => (
-              <button key={t.key} className={`cc-tab${activeTab === t.key ? " active" : ""}`} onClick={() => setActiveTab(t.key)}>
-                {t.label}
-              </button>
-            ))}
+          <div className="cc-tabs" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {TABS.map((t) => (
+                <button key={t.key} className={`cc-tab${activeTab === t.key ? " active" : ""}`} onClick={() => setActiveTab(t.key)}>
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            <PdfButton
+              label="Descargar informe comparativo"
+              onGenerate={() => generateCreditoReport(results)}
+            />
           </div>
           <div className="cc-card" style={{ marginBottom: 0 }}>
             {activeTab === "resumen"    && <TabResumen results={results} />}

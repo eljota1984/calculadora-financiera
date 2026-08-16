@@ -1,5 +1,7 @@
 import { useState } from "react";
 import './CalculadoraTarjetas.css';
+import PdfButton from './PdfButton';
+import { generateTarjetasReport } from '../../utils/reports/tarjetasReport';
 
 const fmt = (n) => "$" + Math.round(n).toLocaleString("es-CL");
 const fmtP = (n) => n.toFixed(2) + "%";
@@ -417,9 +419,19 @@ export default function CalculadoraTarjetas() {
 
           {activeTab === "avalancha" && (
             <div className="ct-card">
-              <div className="ct-plan-header">
-                <p className="ct-plan-title">🏔 Estrategia Avalancha</p>
-                <p className="ct-plan-desc">Paga primero la tarjeta con mayor tasa de interés. Minimiza el total de intereses pagados.</p>
+              <div className="ct-plan-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10 }}>
+                <div>
+                  <p className="ct-plan-title">🏔 Estrategia Avalancha</p>
+                  <p className="ct-plan-desc">Paga primero la tarjeta con mayor tasa de interés. Minimiza el total de intereses pagados.</p>
+                </div>
+                <PdfButton
+                  label="Descargar plan Avalancha"
+                  onGenerate={() => generateTarjetasReport({
+                    plan: results.planAv, estrategia: 'avalancha',
+                    tarjetasConDeuda: results.tarjetasConDeuda, presupuesto: results.presupuesto,
+                    planAlternativo: results.planBn, estrategiaAlternativa: 'bolanieve',
+                  })}
+                />
               </div>
               <TablaDetalle historial={results.planAv.historial} tarjetas={results.tarjetasConDeuda} />
             </div>
@@ -427,9 +439,19 @@ export default function CalculadoraTarjetas() {
 
           {activeTab === "bolanieve" && (
             <div className="ct-card">
-              <div className="ct-plan-header">
-                <p className="ct-plan-title">⛄ Estrategia Bola de Nieve</p>
-                <p className="ct-plan-desc">Paga primero la tarjeta con menor saldo. Elimina deudas más rápido y genera motivación.</p>
+              <div className="ct-plan-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10 }}>
+                <div>
+                  <p className="ct-plan-title">⛄ Estrategia Bola de Nieve</p>
+                  <p className="ct-plan-desc">Paga primero la tarjeta con menor saldo. Elimina deudas más rápido y genera motivación.</p>
+                </div>
+                <PdfButton
+                  label="Descargar plan Bola de Nieve"
+                  onGenerate={() => generateTarjetasReport({
+                    plan: results.planBn, estrategia: 'bolanieve',
+                    tarjetasConDeuda: results.tarjetasConDeuda, presupuesto: results.presupuesto,
+                    planAlternativo: results.planAv, estrategiaAlternativa: 'avalancha',
+                  })}
+                />
               </div>
               <TablaDetalle historial={results.planBn.historial} tarjetas={results.tarjetasConDeuda} />
             </div>
